@@ -35,6 +35,10 @@
     border-radius:10px;padding:13px 14px;font-size:15px;font-family:'Inter',sans-serif;outline:none;
     transition:border-color .15s,box-shadow .15s;text-transform:uppercase}
   input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
+  textarea{width:100%;background:#fff;border:1px solid var(--line);color:var(--txt);border-radius:10px;
+    padding:13px 14px;font-size:15px;font-family:'Inter',sans-serif;outline:none;min-height:80px;resize:vertical;
+    text-transform:uppercase;transition:border-color .15s,box-shadow .15s}
+  textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
   .err{color:var(--danger);font-size:12px;margin-top:6px;display:none}
 
   .btn{width:100%;border:none;border-radius:10px;padding:15px;font-family:'Rajdhani',sans-serif;
@@ -52,12 +56,16 @@
   #captura .folio{font-family:'Rajdhani',sans-serif;font-size:12px;color:var(--muted);text-align:right;white-space:nowrap}
   .row{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid #ece3d6}
   .row:last-child{border-bottom:none}
-  .row .k{font-family:'Rajdhani',sans-serif;text-transform:uppercase;letter-spacing:.03em;
+  .row .k,.coment-block .k{font-family:'Rajdhani',sans-serif;text-transform:uppercase;letter-spacing:.03em;
     font-size:12px;color:var(--muted);flex:1}
   .row .v{font-size:14px;color:var(--txt);font-weight:600;text-align:right;flex:1;word-break:break-word;text-transform:uppercase}
   .v.ok{color:var(--ok)} .v.bad{color:var(--danger)}
   .pill{display:inline-block;padding:3px 10px;border-radius:99px;font-weight:700;font-size:13px;text-transform:uppercase}
   .pill.h3{background:#cffafe;color:var(--h3)} .pill.h4{background:#ffedd5;color:var(--h4)}
+  .pill.dec{background:#efe7db;color:var(--accent)}
+  .coment-block{padding:12px 0 2px;border-top:1px solid #ece3d6}
+  .coment-val{margin-top:6px;font-size:14px;color:#6b1f2e;font-weight:600;text-transform:uppercase;
+    text-align:left;white-space:pre-wrap;word-break:break-word;line-height:1.4}
 
   .hidden{display:none}
   .actions{margin-top:14px}
@@ -87,6 +95,11 @@
       <option value="">Selecciona…</option>
       <option>Rociador 31</option><option>Rociador 32</option><option>Rociador 33</option>
       <option>Rociador 41</option><option>Rociador 42</option><option>Rociador 43</option>
+      <option>Rociador Decorado 3</option><option>Rociador Decorado 4</option><option>Rociador Decorado 5</option>
+      <option>Rociador Decorado 18</option><option>Rociador Decorado 7</option><option>Rociador Decorado 8</option>
+      <option>Rociador Decorado 10</option><option>Rociador Decorado 11</option><option>Rociador Decorado 12</option>
+      <option>Rociador Decorado 13</option><option>Rociador Decorado 14</option><option>Rociador Decorado 15</option>
+      <option>Rociador Decorado 16</option>
     </select>
     <div class="err" id="e-rociador">Selecciona el rociador.</div>
 
@@ -148,8 +161,12 @@
       <option>César Viveros</option>
       <option>Juan Carlos Maria</option>
       <option>Carlos Ramos</option>
+      <option>Carlos Becerril</option>
     </select>
     <div class="err" id="e-personal">Selecciona el personal.</div>
+
+    <label><span class="n">12.</span>Comentarios o seguimientos en turno</label>
+    <textarea id="comentarios" placeholder="Opcional: observaciones, pendientes o seguimientos del turno"></textarea>
 
     <button class="btn btn-main" onclick="generar()">Generar evidencia</button>
   </div>
@@ -171,6 +188,10 @@
       <div class="row"><div class="k">9. Modo de trabajo</div><div class="v" id="o-modo"></div></div>
       <div class="row"><div class="k">10. Sin presencia en charolas de vidrio, residuos o dren tapado</div><div class="v" id="o-charolas"></div></div>
       <div class="row"><div class="k">11. Personal</div><div class="v" id="o-personal"></div></div>
+      <div class="coment-block">
+        <div class="k">12. Comentarios o seguimientos en turno</div>
+        <div class="coment-val" id="o-comentarios"></div>
+      </div>
     </div>
 
     <div class="actions">
@@ -212,7 +233,7 @@
     // Rociador con color por horno (3x = cian, 4x = naranja)
     const pill = $("o-rociador");
     pill.textContent = c.rociador;
-    pill.className = "pill " + (/4\d/.test(c.rociador) ? "h4" : "h3");
+    pill.className = "pill " + (/decorado/i.test(c.rociador) ? "dec" : (/4\d/.test(c.rociador) ? "h4" : "h3"));
 
     $("o-galonaje").textContent = c.galonaje;
     $("o-tratamiento").textContent = c.tratamiento;
@@ -221,6 +242,8 @@
     $("o-envase").textContent = c.envase;
     setModoColor("o-modo", c.modo);
     $("o-personal").textContent = c.personal;
+    c.comentarios = $("comentarios").value.trim();
+    $("o-comentarios").textContent = c.comentarios || "—";
 
     // Semáforo en puntos críticos
     setSemaforo("o-carta", c.carta, "Sí");      // Sí = ok
@@ -255,7 +278,7 @@
       `1. Rociador: ${c.rociador}\n2. Galonaje: ${c.galonaje}\n3. Tratamiento: ${c.tratamiento}\n`+
       `4. Temp. aplicación: ${c.temp}\n5. Posición espreas: ${c.espreas}\n6. Presentación envase: ${c.envase}\n`+
       `7. Carta de trabajo: ${c.carta}\n8. Fugas/charcos: ${c.fugas}\n9. Modo de trabajo: ${c.modo}\n`+
-      `10. Charolas sin exceso: ${c.charolas}\n11. Personal: ${c.personal}\nFecha: ${c.fecha}`;
+      `10. Charolas sin exceso: ${c.charolas}\n11. Personal: ${c.personal}\n12. Comentarios: ${c.comentarios || "—"}\nFecha: ${c.fecha}`;
   }
 
   async function compartirImagen(){
@@ -278,6 +301,7 @@
 
   function nuevo(){
     requeridos.forEach(id => $(id).value = "");
+    $("comentarios").value = "";
     $("resultado").classList.add("hidden");
     $("form").classList.remove("hidden");
     window.scrollTo({top:0,behavior:"smooth"});
