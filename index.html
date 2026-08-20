@@ -117,37 +117,43 @@
     <input id="temp" placeholder="Ej. 120 °C">
     <div class="err" id="e-temp">Captura la temperatura.</div>
 
-    <label><span class="n">5.</span>Posición de espreas</label>
+    <label><span class="n">5.</span>Tipo de esprea montada</label>
+    <select id="esprea">
+      <option value="">Selecciona…</option><option>Tipo Lápiz</option><option>Tipo Binks</option>
+    </select>
+    <div class="err" id="e-esprea">Selecciona el tipo de esprea.</div>
+
+    <label><span class="n">6.</span>Posición de espreas</label>
     <select id="espreas">
       <option value="">Selecciona…</option>
       <option>Arriba de coronas</option><option>Por debajo de coronas</option>
     </select>
     <div class="err" id="e-espreas">Selecciona la posición.</div>
 
-    <label><span class="n">6.</span>Presentación del envase</label>
+    <label><span class="n">7.</span>Presentación del envase</label>
     <input id="envase" placeholder="Ej. 355 ml NR">
     <div class="err" id="e-envase">Captura la presentación.</div>
 
-    <label><span class="n">7.</span>Cuenta con carta de trabajo</label>
+    <label><span class="n">8.</span>Cuenta con carta de trabajo</label>
     <select id="carta"><option value="">Selecciona…</option><option>Sí</option><option>No</option></select>
     <div class="err" id="e-carta">Indica sí o no.</div>
 
-    <label><span class="n">8.</span>Se tiene fugas o charcos de solución</label>
+    <label><span class="n">9.</span>Se tiene fugas o charcos de solución</label>
     <select id="fugas"><option value="">Selecciona…</option><option>Sí</option><option>No</option></select>
     <div class="err" id="e-fugas">Indica sí o no.</div>
 
-    <label><span class="n">9.</span>Modo de trabajo actual del rociador</label>
+    <label><span class="n">10.</span>Modo de trabajo actual del rociador</label>
     <select id="modo">
       <option value="">Selecciona…</option>
       <option>Manual</option><option>Automático</option><option>Semi automático</option>
     </select>
     <div class="err" id="e-modo">Selecciona el modo.</div>
 
-    <label><span class="n">10.</span>Sin presencia en charolas de vidrio, residuos o dren tapado</label>
+    <label><span class="n">11.</span>Se detecta presencia de vidrio, residuos o drenes tapados en charolas</label>
     <select id="charolas"><option value="">Selecciona…</option><option>Sí</option><option>No</option></select>
     <div class="err" id="e-charolas">Indica sí o no.</div>
 
-    <label><span class="n">11.</span>Personal que realiza rutina e inspección</label>
+    <label><span class="n">12.</span>Personal que realiza rutina e inspección</label>
     <select id="personal">
       <option value="">Selecciona…</option>
       <option>Ricardo Cruz</option>
@@ -165,7 +171,7 @@
     </select>
     <div class="err" id="e-personal">Selecciona el personal.</div>
 
-    <label><span class="n">12.</span>Comentarios o seguimientos en turno</label>
+    <label><span class="n">13.</span>Comentarios o seguimientos en turno</label>
     <textarea id="comentarios" placeholder="Opcional: observaciones, pendientes o seguimientos del turno"></textarea>
 
     <button class="btn btn-main" onclick="generar()">Generar evidencia</button>
@@ -181,15 +187,16 @@
       <div class="row"><div class="k">2. Galonaje</div><div class="v" id="o-galonaje"></div></div>
       <div class="row"><div class="k">3. Tratamiento</div><div class="v" id="o-tratamiento"></div></div>
       <div class="row"><div class="k">4. Temperatura de aplicación</div><div class="v" id="o-temp"></div></div>
-      <div class="row"><div class="k">5. Posición espreas</div><div class="v" id="o-espreas"></div></div>
-      <div class="row"><div class="k">6. Presentación envase</div><div class="v" id="o-envase"></div></div>
-      <div class="row"><div class="k">7. Carta de trabajo</div><div class="v" id="o-carta"></div></div>
-      <div class="row"><div class="k">8. Fugas / charcos</div><div class="v" id="o-fugas"></div></div>
-      <div class="row"><div class="k">9. Modo de trabajo</div><div class="v" id="o-modo"></div></div>
-      <div class="row"><div class="k">10. Sin presencia en charolas de vidrio, residuos o dren tapado</div><div class="v" id="o-charolas"></div></div>
-      <div class="row"><div class="k">11. Personal</div><div class="v" id="o-personal"></div></div>
+      <div class="row"><div class="k">5. Tipo de esprea montada</div><div class="v" id="o-esprea"></div></div>
+      <div class="row"><div class="k">6. Posición espreas</div><div class="v" id="o-espreas"></div></div>
+      <div class="row"><div class="k">7. Presentación envase</div><div class="v" id="o-envase"></div></div>
+      <div class="row"><div class="k">8. Carta de trabajo</div><div class="v" id="o-carta"></div></div>
+      <div class="row"><div class="k">9. Fugas / charcos</div><div class="v" id="o-fugas"></div></div>
+      <div class="row"><div class="k">10. Modo de trabajo</div><div class="v" id="o-modo"></div></div>
+      <div class="row"><div class="k">11. Se detecta presencia de vidrio, residuos o drenes tapados en charolas</div><div class="v" id="o-charolas"></div></div>
+      <div class="row"><div class="k">12. Personal</div><div class="v" id="o-personal"></div></div>
       <div class="coment-block">
-        <div class="k">12. Comentarios o seguimientos en turno</div>
+        <div class="k">13. Comentarios o seguimientos en turno</div>
         <div class="coment-val" id="o-comentarios"></div>
       </div>
     </div>
@@ -212,7 +219,7 @@
   const $ = id => document.getElementById(id);
 
   // campos requeridos
-  const requeridos = ["rociador","galonaje","tratamiento","temp","espreas","envase","carta","fugas","modo","charolas","personal"];
+  const requeridos = ["rociador","galonaje","tratamiento","temp","esprea","espreas","envase","carta","fugas","modo","charolas","personal"];
 
   function generar(){
     const c = {};
@@ -238,6 +245,7 @@
     $("o-galonaje").textContent = c.galonaje;
     $("o-tratamiento").textContent = c.tratamiento;
     $("o-temp").textContent = c.temp;
+    $("o-esprea").textContent = c.esprea;
     $("o-espreas").textContent = c.espreas;
     $("o-envase").textContent = c.envase;
     setModoColor("o-modo", c.modo);
@@ -248,7 +256,7 @@
     // Semáforo en puntos críticos
     setSemaforo("o-carta", c.carta, "Sí");      // Sí = ok
     setSemaforo("o-fugas", c.fugas, "No");      // No = ok
-    setSemaforo("o-charolas", c.charolas, "Sí"); // Sí = ok (verde), No = rojo
+    setSemaforo("o-charolas", c.charolas, "No"); // No = ok (verde), Sí = rojo
 
     $("form").classList.add("hidden");
     $("resultado").classList.remove("hidden");
@@ -276,9 +284,9 @@
   function textoMensaje(c){
     return `RUTINA ROCIADOR — LADO FRÍO\n`+
       `1. Rociador: ${c.rociador}\n2. Galonaje: ${c.galonaje}\n3. Tratamiento: ${c.tratamiento}\n`+
-      `4. Temp. aplicación: ${c.temp}\n5. Posición espreas: ${c.espreas}\n6. Presentación envase: ${c.envase}\n`+
-      `7. Carta de trabajo: ${c.carta}\n8. Fugas/charcos: ${c.fugas}\n9. Modo de trabajo: ${c.modo}\n`+
-      `10. Charolas sin exceso: ${c.charolas}\n11. Personal: ${c.personal}\n12. Comentarios: ${c.comentarios || "—"}\nFecha: ${c.fecha}`;
+      `4. Temperatura de aplicación: ${c.temp}\n5. Tipo de esprea montada: ${c.esprea}\n6. Posición espreas: ${c.espreas}\n`+
+      `7. Presentación envase: ${c.envase}\n8. Carta de trabajo: ${c.carta}\n9. Fugas/charcos: ${c.fugas}\n`+
+      `10. Modo de trabajo: ${c.modo}\n11. Se detecta presencia de vidrio, residuos o drenes tapados en charolas: ${c.charolas}\n12. Personal: ${c.personal}\n13. Comentarios: ${c.comentarios || "—"}\nFecha: ${c.fecha}`;
   }
 
   async function compartirImagen(){
