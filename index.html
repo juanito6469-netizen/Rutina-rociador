@@ -256,6 +256,8 @@
     const ahora = new Date();
     c.fecha = ahora.toLocaleString("es-MX",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"});
     ultimo = c;
+    c.comentarios = $("comentarios").value.trim();
+    guardarEnSheet(c);
 
     $("o-fecha").textContent = c.fecha;
 
@@ -274,7 +276,6 @@
     $("o-envase").textContent = c.envase;
     setModoColor("o-modo", c.modo);
     $("o-personal").textContent = c.personal;
-    c.comentarios = $("comentarios").value.trim();
     $("o-comentarios").textContent = c.comentarios || "—";
 
     // Semáforo en puntos críticos
@@ -286,6 +287,20 @@
     $("resultado").classList.remove("hidden");
     $("nota").textContent = "Evidencia generada. Pulsa Compartir para enviarla.";
     window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  // URL de tu Apps Script (Google Sheets) publicado como aplicación web
+  const SHEET_URL = "https://script.google.com/macros/s/AKfycbxD-gThajFrUcoFtXVPr_JpixK7NIm2d8O6_NotouVcUzQPD3Y3CjSheQvRI83LTb5B/exec";
+
+  function guardarEnSheet(c){
+    fetch(SHEET_URL, {
+      method: "POST",
+      mode: "no-cors", // Apps Script no responde con cabeceras CORS; enviamos "a ciegas"
+      headers: { "Content-Type": "text/plain" }, // evita el preflight que Apps Script no maneja
+      body: JSON.stringify(c)
+    }).catch(err => {
+      console.warn("No se pudo guardar en la hoja (se generará la evidencia igual):", err);
+    });
   }
 
   function setSemaforo(id, valor, valorBueno){
